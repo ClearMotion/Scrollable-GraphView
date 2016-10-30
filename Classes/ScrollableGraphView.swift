@@ -1,8 +1,15 @@
 import UIKit
 
+// MARK: - ScrollableGraphView Delegate
+@objc public protocol ScrollableGraphDelegate: class {
+    func graphDidMove()
+}
+
 // MARK: - ScrollableGraphView
 @IBDesignable
 @objc open class ScrollableGraphView: UIScrollView, UIScrollViewDelegate, ScrollableGraphViewDrawingDelegate {
+    
+    public weak var graphDelegate : ScrollableGraphDelegate?
     
     // MARK: - Public Properties
     // Use these to customise the graph.
@@ -536,6 +543,8 @@ import UIKit
             return
         }
         
+        graphDelegate?.graphDidMove()
+
         // If the data has been updated, we need to re-init everything
         if (dataNeedsReloading) {
             setup()
